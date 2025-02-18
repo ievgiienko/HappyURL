@@ -1,4 +1,4 @@
-package academy.prog;
+package shorturl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

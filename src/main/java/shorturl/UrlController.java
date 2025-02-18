@@ -1,5 +1,7 @@
-package academy.prog;
+package shorturl;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,15 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@PropertySource("classpath:application.properties")
 public class UrlController {
+
+    @Value("${custom.domain}")
+    private String domain;
+
+    @Value("${server.port}")
+    private int port;
+
     private final UrlService urlService;
 
     public UrlController(UrlService urlService) {
@@ -25,7 +35,7 @@ public class UrlController {
 
         var result = new UrlResultDTO();
         result.setUrl(urlDTO.getUrl());
-        result.setShortUrl(Long.toString(id));
+        result.setShortUrl(buildUrl(domain, port, id));
 
         return result;
     }
@@ -36,7 +46,7 @@ public class UrlController {
 
         var result = new UrlResultDTO();
         result.setUrl(urlDTO.getUrl());
-        result.setShortUrl(Long.toString(id));
+        result.setShortUrl(buildUrl(domain, port, id));
 
         return result;
     }
@@ -47,7 +57,7 @@ public class UrlController {
         Cache-Control: no-cache, no-store, must-revalidate
      */
 
-    @GetMapping("my/{id}")
+    @GetMapping("/my/{id}")
     public ResponseEntity<Void> redirect(@PathVariable("id") Long id) {
         var url = urlService.getUrl(id);
 
@@ -61,5 +71,9 @@ public class UrlController {
     @GetMapping("stat")
     public List<UrlStatDTO> stat() {
         return urlService.getStatistics();
+    }
+
+    private String buildUrl(String domain, int port, long id) {
+        return String.format("http://%s:%d/my/%d", domain, port, id);
     }
 }

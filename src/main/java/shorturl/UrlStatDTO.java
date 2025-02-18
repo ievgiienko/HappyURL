@@ -1,4 +1,4 @@
-package academy.prog;
+package shorturl;
 
 import java.util.Date;
 

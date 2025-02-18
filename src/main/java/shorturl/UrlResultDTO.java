@@ -1,4 +1,4 @@
-package academy.prog;
+package shorturl;
 
 public class UrlResultDTO extends UrlDTO {
     protected String shortUrl;
