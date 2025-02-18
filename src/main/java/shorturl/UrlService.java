@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-// DB -> E(20) -> R -> S -> DTO <- C -> View / JSON (5)
-
 @Service
 public class UrlService {
     private final UrlRepository urlRepository;
